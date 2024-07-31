@@ -1,18 +1,21 @@
 <script setup>
-    import { ref,inject,getCurrentInstance,computed} from 'vue'
+    import { inject,getCurrentInstance,computed} from 'vue'
+    //注入父组件的Header
     const parent=inject('Header')
+
+    //将该实例添加到父组件的children数组中，并获取当前组件的Index
     const instance=getCurrentInstance()
     parent.addChild(instance)
-    const index=parent.children.indexOf(instance)
-    console.log(index)
+    const index=parent.children.value.indexOf(instance)
 
     const flag=computed(()=>parent.props.modelValue[index].done)
 
-
+    //切换任务完成状态
     const toggleFlag = () => {
         parent.props.modelValue[index].done=!flag.value
     }
     
+    //删除单组件
     const deleteItem = ()=>{
         parent.removeItem(index)
     }
